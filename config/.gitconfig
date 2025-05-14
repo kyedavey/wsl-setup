@@ -1,0 +1,14 @@
+[user]
+	name = Kye Davey
+	email = kye.j.davey@gmail.com
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[color]
+	ui = auto
+[alias]
+  co = checkout
+  br = branch
+  ci = commit
+  st = status
