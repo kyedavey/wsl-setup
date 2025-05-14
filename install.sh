@@ -3,6 +3,8 @@ set -e
 REPO_NAME="wsl-setup"
 REPO_LOCAL_LOCATION="${HOME}/code/${REPO_NAME}"
 
+echo -e "\nUpdating System..."
+
 sudo apt update -y
 sudo apt upgrade -y
 
