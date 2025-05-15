@@ -68,4 +68,6 @@ if command -v fzf &> /dev/null; then
   fi
 fi
 
-eval "$(zellij setup --generate-auto-start bash)"
+if [[ -z "$ZELLIJ" ]]; then
+  zellij attach --create primary
+fi
