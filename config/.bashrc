@@ -65,13 +65,14 @@ alias gcad='git commit -a --amend'
 force_color_prompt=yes
 color_prompt=yes
 
-# Simple prompt will be overridden if zellij installed
+# Simple prompt will be overridden if starship is installed
 PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
 # Initializations
 _have gh && . <(gh completion -s bash)
 _have mise && eval "$(mise activate bash)"
 _have zoxide && eval "$(zoxide init bash)"
+_have starship && eval "$(starship init bash)"
 
 if _have fzf; then
   if [[ -f /usr/share/bash-completion/completions/fzf ]]; then
@@ -79,13 +80,5 @@ if _have fzf; then
   fi
   if [[ -f /usr/share/doc/fzf/examples/key-bindings.bash ]]; then
     source /usr/share/doc/fzf/examples/key-bindings.bash
-  fi
-fi
-
-if _have zellij; then
-  PS1=$'❯ '
-  PS1="\[\e]0;\w\a\]$PS1"
-  if [[ -z "$ZELLIJ" ]]; then
-    zellij attach --create ${TERM_PROGRAM:-primary}
   fi
 fi
