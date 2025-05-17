@@ -28,8 +28,7 @@ set-editor() {
 	export VISUAL="$1"
 	export GH_EDITOR="$1"
 	export GIT_EDITOR="$1"
-  export SUDO_EDITOR="$1"
-	alias vi="\$EDITOR"
+  export SUDO_EDITOR="$1"	
 }
 _have "vim" && set-editor vi
 _have "nvim" && set-editor nvim
@@ -49,10 +48,10 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 # Tools
+alias vi="\$EDITOR"
 alias n='nvim'
 alias g='git'
 alias d='docker'
-alias r='rails'
 alias bat='batcat'
 alias lzg='lazygit'
 alias lzd='lazydocker'
@@ -66,19 +65,15 @@ alias gcad='git commit -a --amend'
 force_color_prompt=yes
 color_prompt=yes
 
-# Simple prompt with path in the window/pane title and caret for typing line
-PS1=$'❯ '
-PS1="\[\e]0;\w\a\]$PS1"
+# Simple prompt will be overridden if zellij installed
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
-if command -v mise &> /dev/null; then
-  eval "$(mise activate bash)"
-fi
+# Initializations
+_have gh && . <(gh completion -s bash)
+_have mise && eval "$(mise activate bash)"
+_have zoxide && eval "$(zoxide init bash)"
 
-if command -v zoxide &> /dev/null; then
-  eval "$(zoxide init bash)"
-fi
-
-if command -v fzf &> /dev/null; then
+if _have fzf; then
   if [[ -f /usr/share/bash-completion/completions/fzf ]]; then
     source /usr/share/bash-completion/completions/fzf
   fi
@@ -87,6 +82,10 @@ if command -v fzf &> /dev/null; then
   fi
 fi
 
-if [[ -z "$ZELLIJ" ]]; then
-  zellij attach --create ${TERM_PROGRAM:-primary}
+if _have zellij; then
+  PS1=$'❯ '
+  PS1="\[\e]0;\w\a\]$PS1"
+  if [[ -z "$ZELLIJ" ]]; then
+    zellij attach --create ${TERM_PROGRAM:-primary}
+  fi
 fi
