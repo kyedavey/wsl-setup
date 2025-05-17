@@ -1,3 +1,14 @@
+#!/bin/bash
+
+case $- in
+*i*) ;; # interactive
+*) return ;;
+esac
+
+# Local utility functions
+
+_have() { type "$1" &>/dev/null; }
+
 # History control
 shopt -s histappend
 HISTCONTROL=ignoreboth
@@ -12,8 +23,16 @@ export PATH="./bin:$HOME/.local/bin:$PATH"
 set +h
 
 # Editor used by CLI
-export EDITOR="nvim"
-export SUDO_EDITOR="$EDITOR"
+set-editor() {
+	export EDITOR="$1"
+	export VISUAL="$1"
+	export GH_EDITOR="$1"
+	export GIT_EDITOR="$1"
+  export SUDO_EDITOR="$1"
+	alias vi="\$EDITOR"
+}
+_have "vim" && set-editor vi
+_have "nvim" && set-editor nvim
 
 # File system
 alias ls='eza -lh --group-directories-first --icons=auto'
