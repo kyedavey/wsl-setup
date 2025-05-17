@@ -69,5 +69,5 @@ if command -v fzf &> /dev/null; then
 fi
 
 if [[ -z "$ZELLIJ" ]]; then
-  zellij attach --create primary
+  zellij attach --create ${TERM_PROGRAM:-primary}
 fi
