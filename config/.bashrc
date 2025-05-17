@@ -34,13 +34,21 @@ _have "vim" && set-editor vi
 _have "nvim" && set-editor nvim
 
 # File system
-alias ls='eza -lh --group-directories-first --icons=auto'
-alias lsa='ls -a'
-alias lt='eza --tree --level=2 --long --icons --git'
-alias lta='lt -a'
+
+if _have eza; then
+  alias ls='eza -lh --group-directories-first --icons=auto'
+  alias lt='eza --tree --level=2 --long --icons --git'
+  alias lsa='ls -a'
+  alias lta='lt -a'
+else
+  alias ls='ls -lF --color=auto'
+  alias lsa='ls -a'
+fi
+
 alias ff="fzf --preview 'batcat --style=numbers --color=always {}'"
 alias fd='fdfind'
-alias cd='z'
+
+_have zoxide && alias cd='z'
 
 # Directories
 alias ..='cd ..'
